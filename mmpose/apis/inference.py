@@ -281,6 +281,21 @@ def _inference_single_pose_model(model,
     batch_data = collate(batch_data, samples_per_gpu=len(batch_data))
     batch_data = scatter(batch_data, [device])[0]
 
+    """
+    import torchvision.transforms as transforms
+    import cv2
+    def decode(img):
+        transform = transforms.Compose([transforms.Normalize(mean=(0.,0.,0.,),std=(1/0.229,1/0.224,1/0.225)),
+                            transforms.Normalize(mean=(-0.485,-0.456,-0.406), std=(1.,1.,1.))])
+        return transform(img)
+    img = batch_data['img']
+    img = decode(img)
+    img = img[0].permute(1,2,0).cpu().numpy()
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    cv2.imshow('', img)
+    cv2.waitKey()
+    """
+    print(batch_data['img_metas'])
     # forward the model
     with torch.no_grad():
         result = model(
@@ -550,6 +565,7 @@ def vis_pose_result(model,
                     thickness=1,
                     kpt_score_thr=0.3,
                     bbox_color='green',
+                    bbox_thickness=1,
                     dataset='TopDownCocoDataset',
                     dataset_info=None,
                     show=False,
@@ -801,6 +817,7 @@ def vis_pose_result(model,
         pose_link_color=pose_link_color,
         kpt_score_thr=kpt_score_thr,
         bbox_color=bbox_color,
+        bbox_thickness=bbox_thickness,
         show=show,
         out_file=out_file)
 

@@ -208,9 +208,9 @@ class TopDownAffine:
         c = results['center']
         s = results['scale']
         r = results['rotation']
-
         if self.use_udp:
             trans = get_warp_matrix(r, c * 2.0, image_size - 1.0, s * 200.0)
+
             if not isinstance(img, list):
                 img = cv2.warpAffine(
                     img,
