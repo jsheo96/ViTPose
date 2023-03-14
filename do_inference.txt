@@ -1,1 +1,4 @@
 python demo/top_down_video_demo_with_yolox.py /Data/ByteTrack/exps/example/mot/yolox_x_salmon.py /Data/ByteTrack/YOLOX_outputs/yolox_x_salmon/best_ckpt.pth.tar configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/salmon/ViTPose_base_salmon_256x192.py work_dirs/ViTPose_base_salmon_256x192/best_AP_epoch_180.pth --video-path /data/BusanInstitute/C2/1059.mp4 --out-video-root vis_results/
+
+python demo/top_down_video_demo_with_yolox.py /workspace/FishSenseCore/yolox_x_salmon.py /workspace/FishSenseCore/best_ckpt.pth.tar configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/salmon/ViTPose_base_salmon_256x192.py /workspace/FishSenseCore/be
+st_AP_epoch_180.pth --video-path /workspace/FishSenseCore/left.mp4 --out-video-root vis_results/

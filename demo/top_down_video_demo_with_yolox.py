@@ -13,8 +13,8 @@ import sys
 sys.path.insert(0, '/Data/ByteTrack')
 from yolox.exp import get_exp
 import torch
-from yolox.tracker.byte_tracker import BYTETracker
-from yolox.tracking_utils.timer import Timer
+# from yolox.tracker.byte_tracker import BYTETracker
+# from yolox.tracking_utils.timer import Timer
 from yolox.data.data_augment import preproc
 from yolox.utils import fuse_model, postprocess
 
@@ -124,7 +124,7 @@ class Predictor(object):
         img = img.half()  # to FP16
 
         with torch.no_grad():
-            timer.tic()
+            # timer.tic()
             outputs = self.model(img)
             if self.decoder is not None:
                 outputs = self.decoder(outputs, dtype=outputs.type())
@@ -186,8 +186,8 @@ def main():
     det_model = fuse_model(det_model)
     det_model = det_model.half()  # to FP16
     predictor = Predictor(det_model, exp, None, None, args.device, True)
-    tracker = BYTETracker(args, frame_rate=30)
-    timer = Timer()
+    # tracker = BYTETracker(args, frame_rate=30)
+    # timer = Timer()
 
     pose_model = init_pose_model(
         args.pose_config, args.pose_checkpoint, device=args.device.lower())
@@ -240,10 +240,10 @@ def main():
             break
 
         # keep the person class bounding boxes.
-        outputs = predictor.inference(img, timer)
-        if outputs[0] is not None:
-            online_targets = tracker.update(outputs[0], img.shape[:2], predictor.test_size)
-        
+        outputs = predictor.inference(img, None)
+        # if outputs[0] is not None:
+        #     online_targets = tracker.update(outputs[0], img.shape[:2], predictor.test_size)
+        online_targets = outputs
         bboxes = [t.tlwh for t in online_targets] # t.tlwh gives in (x1, y1, w, h) order fuck
         bboxes = [[t, l, t+w, l+h] for t,l,w,h in bboxes]
         person_results = [{'bbox': np.array([x1,y1,x2,y2])} for x1,y1,x2,y2 in bboxes]
@@ -278,8 +278,8 @@ def main():
             bbox_thickness=args.bbox_thickness)
         # vis_img = vis_information(vis_img, pose_results, online_targets, prev_center_from_id)
         
-        timer.toc()
-        cv2.putText(vis_img, 'FPS: {:.2f} Number of Fish: {}'.format(1./ max(1e-5, timer.average_time), len(online_targets)), (0,20), 1, 1.5, (0,0,255), thickness=2)
+        # /timer.toc()
+        # cv2.putText(vis_img, 'FPS: {:.2f} Number of Fish: {}'.format(1./ max(1e-5, timer.average_time), len(online_targets)), (0,20), 1, 1.5, (0,0,255), thickness=2)
         if args.show:
             cv2.imshow('Image', vis_img)
 
