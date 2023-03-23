@@ -90,12 +90,14 @@ data_cfg = dict(
     bbox_file='data/coco/person_detection_results/'
     'COCO_val2017_detections_AP_H_56_person.json',
 )
+
+data_root = 'data/salmon/legacy'
 data_cfg_train = data_cfg.copy()
-data_cfg_train['bbox_file'] = 'data/salmon/annotations/train_detection.json'
+data_cfg_train['bbox_file'] = f'{data_root}/annotations/train_detection.json'
 data_cfg_val = data_cfg.copy()
-data_cfg_val['bbox_file'] = 'data/salmon/annotations/train_detection.json'
+data_cfg_val['bbox_file'] = f'{data_root}/annotations/train_detection.json'
 data_cfg_test = data_cfg.copy()
-data_cfg_test['bbox_file'] = 'data/salmon/annotations/train_detection.json'
+data_cfg_test['bbox_file'] = f'{data_root}annotations/train_detection.json'
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -145,7 +147,6 @@ val_pipeline = [
 
 test_pipeline = val_pipeline
 
-data_root = 'data/salmon'
 data = dict(
     samples_per_gpu=8,
     workers_per_gpu=8,

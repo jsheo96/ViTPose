@@ -138,6 +138,7 @@ dataset_info = dict(
         0.026, 0.025, 0.025, 0.035, 0.035, 0.079, 0.079, 0.072, 0.072, 0.062,
         0.062, 0.107
     ])
+"""
 # TODO: make skeleton colorful
 import matplotlib.cm as cm
 def get_color_from_id(id_, max_id=17, color_map='jet'):
@@ -161,6 +162,4 @@ for key in dataset_info['skeleton_info'].keys():
     color2 = dataset_info['keypoint_info'][id2]['color']
     color = [int((c1+c2)/2) for c1,c2 in zip(color1, color2)]
     dataset_info['skeleton_info'][key]['color'] = color
-
-
-    
+"""    
